@@ -1,5 +1,7 @@
 <template>
   <div class="about">
+    <!-- <top-header :use="use" :logout="logout"></top-header> -->
+    <!-- <sidebar></sidebar> -->
     <h3>{{user.email}}</h3>
     <button @click="logout">Sign Out</button>
     <br>
@@ -11,18 +13,29 @@
         <button @click="addBudget">Add Budget</button>
     </form>
     <br>
+    <!-- <main-footer></main-footer>  -->
   </div>
 </template>
 
 <script>
+// import topHeader from '@/components/topHeader.vue'
+// import sidebar from '@/components/sidebar.vue'
+// import mainFooter from '@/components/mainFooter.vue'
 import firebase from 'firebase/app'
 // import firestore from 'firebase/firestore'
 import 'firebase/auth'
 const db = firebase.firestore();
 export default {
   name: 'signup',
-  components: {
-  },
+  // props: {
+  //     logout: Function,
+  //     use: Object
+  //   },
+  // components: {
+  //     topHeader,
+  //     sidebar,
+  //     mainFooter
+  // },
   data(){
     return{
       email: '',
@@ -46,9 +59,11 @@ export default {
     fetchdata(){
       var user = firebase.auth().currentUser;
       this.user = user;
-        db.collection('users').doc(user.uid).collection('budget').get()
-        .then(acc=>{
-            acc.forEach(doc =>{
+        db.collection('users').doc(user.uid).collection('budget')
+        .onSnapshot(querySnap=>{
+          this.total = [];
+          this.budget = [];
+            querySnap.forEach(doc =>{
                 let result = doc.data()
                 this.budget.unshift(result.new)
                 this.total.push(result)
@@ -68,7 +83,6 @@ export default {
                 date: new Date().getTime()
             }).then(()=>{
                 alert("added successfully")
-                location.reload()
             })
         },
     },

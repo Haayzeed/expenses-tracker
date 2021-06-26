@@ -11,7 +11,7 @@
                 <div class="sidebar-menu">
                     <ul>
                         <li><router-link to="/dashboard" exact><span class="fas fa-tachometer-alt"></span> Dashboard</router-link></li>
-                        <li><router-link to="/budget"><span class="fas fa-chart-bar"></span> Budget</router-link></li>
+                        <li><router-link to="/add-budget"><span class="fas fa-chart-bar"></span> Budget</router-link></li>
                         <li><router-link to="/expenses"><span class="fas fa-chess-queen"></span> Expenses</router-link></li>
                         <li><router-link to="/report"><span class="fas fa-filter"></span> Report</router-link></li>
                     </ul>
