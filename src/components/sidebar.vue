@@ -36,7 +36,7 @@ export default {
         --primary: #fff;
         --gray: #f2f2f2;
         --secondary: #333;
-        --dark-blue: #191A35;
+        --dark-blue: #191a35;
     }
     *{
         margin: 0;

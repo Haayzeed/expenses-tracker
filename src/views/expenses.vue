@@ -2,7 +2,7 @@
   <div class="about">
     <top-header></top-header>
       <sidebar></sidebar>
-      <div class="content-page">
+      <div class="content-section">
     <div class="content">
         <!-- Start Content-->
         <div class="container-fluid">

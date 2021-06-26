@@ -8,24 +8,35 @@
                     </label>
                 </div>
                 <div class="header-icons">
-                    <span><img :src="use.photoURL" alt="" class="avatar"></span>
-                    <span class="">{{use.displayName}}</span><button @click="logout()">Logout</button>
+                    <span><img :src="userDetails.photoURL" alt="" class="avatar"></span>
+                    <span class="">{{userDetails.displayName}}</span><button @click="logout()">Logout</button>
                 </div>
             </header>
         </div>
     </div>
 </template>
 <script>
-
+import firebase from 'firebase/app'
+import 'firebase/auth'
 export default {
-    props: {
-        logout: Function,
-        use: Object
-    },
     data(){
         return{
-
+            userDetails: {}
         }
+    },
+    methods: {
+        fetchUserData(){
+            var user = firebase.auth().currentUser;
+            this.userDetails = user;
+        },
+        logout(){
+            firebase.auth().signOut().then(() =>{
+                this.$router.push('/')
+            })
+        }
+    },
+    mounted(){
+        this.fetchUserData()
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-        <top-header :use="use" :logout="logout"></top-header>
+        <top-header></top-header>
         <sidebar></sidebar>
         <div class="content-section">
             <main>
@@ -11,11 +11,11 @@
                     </div>
                     <div class="card">
                         <p class=" mb-0 mt-2">Expenses</p>
-                        <h3 class="">&#8358;{{Number(expensesSum).toLocaleString()}}</h3>
+                        <h3 class="">&#8358;{{Number(totalExpenses).toLocaleString()}}</h3>
                     </div>
                     <div class="card">
                         <p class=" mb-0 mt-2">Balance</p>
-                        <h3 class="">&#8358;{{Number(this.sum - this.expensesSum).toLocaleString()}}</h3>
+                        <h3 class="">&#8358;{{Number(this.sum - this.totalExpenses).toLocaleString()}}</h3>
                     </div>
                 </div>
             </main>
@@ -43,104 +43,86 @@ export default {
   },
   data(){
     return{
-        email: '',
-        username: '',
-        password: '',
-        feedback: '',
         total: [],
         money: '',
         sum: '',
-        me: [],
-        use:{},
-        category: '',
-        expenses: '',
-        expensesSum: [],
-        mee: [],
-        totals: [],
+        allBudget: [],
+        userDetails:{},
+        allExpenses: [],
+        totalExpenses: [],
         cat: '',
         interval: null
     }
   },
   methods: {
-    logout(){
-        firebase.auth().signOut().then(() =>{
-            this.$router.push('/')
-        })
-    },
-    fetchdata(){
+    fetchData(){
         var user = firebase.auth().currentUser;
-        this.use = user;
-        console.log(this.use)
+        this.userDetails = user;
         db.collection('users').doc(user.uid).collection('budget').get()
         .then(acc=>{
             acc.forEach(doc =>{
-                let tt = doc.data()
-                this.me.push(tt.new)
-                this.total.push(tt)
-                console.log(this.me)
-                this.sum = this.me.reduce(function(a, b){
+                let result = doc.data()
+                console.log(result)
+                this.allBudget.push(result.money)
+                this.sum = this.allBudget.reduce(function(a, b){
                     return a + b;
                 }, 0);
             })
         })
     },
-    addBudget(e){
-        e.preventDefault()
-        var user = firebase.auth().currentUser;
-        db.collection('users').doc(user.uid).collection('budget').add({
-            new: parseInt(this.money),
-            date: new Date().getTime()
-        }).then(()=>{
-            alert("added successfully")
-            location.reload()
-        })
-    },
-    addExpenses(e){
-        e.preventDefault()
-        var user = firebase.auth().currentUser;
-        db.collection('users').doc(user.uid).collection('expenses').add({
-            new: parseInt(this.expenses),
-            date: new Date().getTime(),
-            category: this.cat
-        }).then(()=>{
-            alert("added successfully")
-            location.reload()
-        })
-    },
-    addCategory(e){
-        e.preventDefault()
-        var user = firebase.auth().currentUser;
-        db.collection('users').doc(user.uid).collection('category').add({
-            name: this.category,
-            id: this.category.length - 1
-            // date: new Date().getTime()
-        }).then(()=>{
-            alert("added successfully")
-            // console.log()
-        })
-    },
+    // addBudget(e){
+    //     e.preventDefault()
+    //     var user = firebase.auth().currentUser;
+    //     db.collection('users').doc(user.uid).collection('budget').add({
+    //         new: parseInt(this.money),
+    //         date: new Date().getTime()
+    //     }).then(()=>{
+    //         alert("added successfully")
+    //         location.reload()
+    //     })
+    // },
+    // addExpenses(e){
+    //     e.preventDefault()
+    //     var user = firebase.auth().currentUser;
+    //     db.collection('users').doc(user.uid).collection('expenses').add({
+    //         new: parseInt(this.expenses),
+    //         date: new Date().getTime(),
+    //         category: this.cat
+    //     }).then(()=>{
+    //         alert("added successfully")
+    //         location.reload()
+    //     })
+    // },
+    // addCategory(e){
+    //     e.preventDefault()
+    //     var user = firebase.auth().currentUser;
+    //     db.collection('users').doc(user.uid).collection('category').add({
+    //         name: this.category,
+    //         id: this.category.length - 1
+    //         // date: new Date().getTime()
+    //     }).then(()=>{
+    //         alert("added successfully")
+    //         // console.log()
+    //     })
+    // },
     // fetch expenses
     fetchExpenses(){
-    var user = firebase.auth().currentUser;
-    this.use = user;
-    db.collection('users').doc(user.uid).collection('expenses').get()
-    .then(acc1=>{
-        acc1.forEach(doc =>{
-            let ttw = doc.data()
-            this.mee.push(ttw.new)
-            this.totals.push(ttw)
-            console.log(this.totals)
-            this.expensesSum = this.mee.reduce(function(a, b){
-                return a + b;
-            }, 0);
-            console.log(this.mee)
-        })
-    })
-        
-    },
+        var user = firebase.auth().currentUser;
+        this.use = user;
+        db.collection('users').doc(user.uid).collection('expenses').get()
+        .then(acc1=>{
+            acc1.forEach(doc =>{
+                let result = doc.data()
+                this.allExpenses.push(result.money)
+                this.totalExpenses = this.allExpenses.reduce(function(a, b){
+                    return a + b;
+                }, 0);
+            })
+        })       
+    }
   },
     mounted(){
-        this.fetchdata()
+        this.fetchData()
         this.fetchExpenses()
     }
 }
