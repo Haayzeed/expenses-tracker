@@ -19,14 +19,9 @@
                     </div>
                 </div>
             </main>
-            <h1>{{use.email}}</h1>
-            <button @click="logout">Sign Out</button>
         </div>
-        <main-footer></main-footer>
-        
-            
-        
-        
+        <main-footer></main-footer> 
+    
     <!-- <p v-for="(tot, index) in totals" :key="index">&#8358;{{Number(tot.new).toLocaleString()}}-({{tot.category}})-{{new Date(tot.date).toLocaleString()}}</p> -->
 
   </div>
@@ -56,7 +51,7 @@ export default {
         money: '',
         sum: '',
         me: [],
-        use:'',
+        use:{},
         category: '',
         expenses: '',
         expensesSum: [],
@@ -75,6 +70,7 @@ export default {
     fetchdata(){
         var user = firebase.auth().currentUser;
         this.use = user;
+        console.log(this.use)
         db.collection('users').doc(user.uid).collection('budget').get()
         .then(acc=>{
             acc.forEach(doc =>{

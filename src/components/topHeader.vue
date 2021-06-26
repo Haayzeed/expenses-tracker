@@ -8,8 +8,8 @@
                     </label>
                 </div>
                 <div class="header-icons">
-                    <!-- <span><img src="@/assets/img.png" alt="" class="avatar"></span> -->
-                    <span class="">{{use.email}}</span><button @click="logout()">Logout</button>
+                    <span><img :src="use.photoURL" alt="" class="avatar"></span>
+                    <span class="">{{use.displayName}}</span><button @click="logout()">Logout</button>
                 </div>
             </header>
         </div>
@@ -20,7 +20,7 @@
 export default {
     props: {
         logout: Function,
-        use: String
+        use: Object
     },
     data(){
         return{
