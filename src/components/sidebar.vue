@@ -101,7 +101,6 @@ export default {
             li{
                 margin-bottom: .3rem;
                 cursor: pointer;
-                
                 a{
                     color: var(--primary);
                     font-size: 14px;

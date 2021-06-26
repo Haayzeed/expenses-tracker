@@ -8,10 +8,8 @@
                     </label>
                 </div>
                 <div class="header-icons">
-                    <span class="fas fa-bell"></span>
                     <!-- <span><img src="@/assets/img.png" alt="" class="avatar"></span> -->
-                    <!-- {{use.email}} -->
-                    <span class=""></span><button @click="logout">Logout</button>
+                    <span class="">{{use.email}}</span><button @click="logout()">Logout</button>
                 </div>
             </header>
         </div>
@@ -20,6 +18,10 @@
 <script>
 
 export default {
+    props: {
+        logout: Function,
+        use: String
+    },
     data(){
         return{
 
@@ -90,6 +92,7 @@ export default {
                 outline: none;
                 border-radius: 5px;
                 cursor: pointer;
+                margin-left: 10px;
                 &:focus{
                     border: none;
                 }

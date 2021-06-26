@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-        <top-header></top-header>
+        <top-header :use="use" :logout="logout"></top-header>
         <sidebar></sidebar>
         <div class="content-section">
             <main>
