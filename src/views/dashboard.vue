@@ -1,68 +1,32 @@
 <template>
   <div class="dashboard">
-      <top-header></top-header>
-      <sidebar></sidebar>
-      <div class="content-page">
-        <div class="content">
-            <!-- Start Content-->
-            <div class="container-fluid">
-                <!-- start page title -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box">
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item active">Dashboard</li>
-                                </ol>
-                            </div>
-                            <h4 class="page-title">Dashboard</h4>
-                        </div>
+        <top-header></top-header>
+        <sidebar></sidebar>
+        <div class="content-section">
+            <main>
+                <div class="content">
+                    <div class="card">
+                        <p class=" mb-0 mt-2">Budget</p>
+                        <h3 class="">&#8358;{{Number(sum).toLocaleString()}}</h3>
                     </div>
-                </div>     
-                <!-- end page title --> 
-                <div class="row">
-                    <div class="col-xl-4">
-                        <div class="card-box">
-                            <div class="float-left">
-                                <i class="dripicons-user"></i>
-                            </div>
-                            <div class="widget-chart-one-content text-right" style="">
-                                <p class=" mb-0 mt-2">Budget</p>
-                                <h3 class="">&#8358;{{Number(sum).toLocaleString()}}</h3>
-                            </div>
-                        </div>
+                    <div class="card">
+                        <p class=" mb-0 mt-2">Expenses</p>
+                        <h3 class="">&#8358;{{Number(expensesSum).toLocaleString()}}</h3>
                     </div>
-                    <div class="col-xl-4">
-                        <div class="card-box">
-                            <div class="float-left">
-                                <i class="dripicons-user"></i>
-                            </div>
-                            <div class="widget-chart-one-content text-right" style="">
-                                <p class=" mb-0 mt-2">Expenses</p>
-                                <h3 class="">&#8358;{{Number(expensesSum).toLocaleString()}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4">
-                        <div class="card-box">
-                            <div class="float-left">
-                                <i class="dripicons-user"></i>
-                            </div>
-                            <div class="widget-chart-one-content text-right" style="">
-                                <p class=" mb-0 mt-2">Balance</p>
-                                <h3 class="">&#8358;{{Number(this.sum - this.expensesSum).toLocaleString()}}</h3>
-                            </div>
-                        </div>
+                    <div class="card">
+                        <p class=" mb-0 mt-2">Balance</p>
+                        <h3 class="">&#8358;{{Number(this.sum - this.expensesSum).toLocaleString()}}</h3>
                     </div>
                 </div>
-            </div> <!-- container -->
-        </div> <!-- content -->
-  <main-footer></main-footer>
-
-    </div>
-    <h1>{{use.email}}</h1>
-    <button @click="logout">Sign Out</button>
-    <br>
+            </main>
+            <h1>{{use.email}}</h1>
+            <button @click="logout">Sign Out</button>
+        </div>
+        <main-footer></main-footer>
+        
+            
+        
+        
     <!-- <p v-for="(tot, index) in totals" :key="index">&#8358;{{Number(tot.new).toLocaleString()}}-({{tot.category}})-{{new Date(tot.date).toLocaleString()}}</p> -->
 
   </div>
@@ -186,6 +150,50 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-
+<style lang="scss">
+    #sidebar-toggle{
+        &:checked ~ .body-label{
+            right: 0;
+        }
+        &:checked ~ .main-content{
+            margin-left: 0%;
+        }
+    }
+    .content-section{
+        margin-left: 280px;
+        transition: margin-left 300ms;
+        margin-top: 100px;
+        @media (max-width: 1124px){
+            margin-left: 0;
+        }
+        main{
+            padding: 1rem 2.5rem;
+            background: var(--light-gray);
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+            .content{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-column-gap: 30px;
+                @media (max-width: 1124px){
+                    grid-template-columns: repeat(4, 1fr);
+                }
+                @media (max-width: 600px){
+                    grid-template-columns: repeat(1, 1fr);
+                }
+                @media (min-width: 601px) and (max-width: 768px){
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .card{
+                    height: 150px;
+                    margin-bottom: 30px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background: var(--primary);
+                }
+            }
+        }
+    }
 </style>

@@ -1,13 +1,5 @@
 <template>
     <div class="footer">
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        2020 &copy; Federal Polytechnic Ilaro
-                    </div>
-                </div>
-            </div>
-        </footer>
+         
     </div>
 </template>

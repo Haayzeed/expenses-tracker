@@ -2,38 +2,81 @@
   <div class="about">
     <top-header></top-header>
       <sidebar></sidebar>
-    <h1>{{use.email}}</h1>
-    <button @click="logout">Sign Out</button>
-    <br>
-    <h3>Budget</h3>
-    <p>&#8358;{{Number(sum).toLocaleString()}}</p>
-  
-    <br>
-    <form>
-      <select name="" id="" v-model="cat">
-        <option value="">--Select category--</option>
-        <option value="Food">Food</option>
-        <option value="Cloth">Cloth</option>
-        <option value="Transport">Transport</option>
+      <div class="content-page">
+    <div class="content">
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">School</h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title --> 
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="header-title">Add Expenses</h4>
+                                <form class="">
+                                    <div class="form-group">
+                                        <select name="" id="" class="form-control" v-model="cat">
+                                            <option value="">--Select category--</option>
+                                            <option value="Food">Food</option>
+                                            <option value="Cloth">Cloth</option>
+                                            <option value="Transport">Transport</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" placeholder="Expenses" v-model="expenses">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-block btn-dark" @click="addExpenses">Add Expenses</button>
+                                    </div>
+                                </form> 
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-box">
+                        <h4 class="header-title">Modify School</h4>
+                        <table id="datatable" class="table table-bordered nowrap">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Category</th>
+                                    <td>Amount</td>
+                                    <td>Date/Time</td>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(tot, index) in totals" :key="index">
+                                    <td>{{index+1}}</td>
+                                    <td>{{tot.category}}</td>
+                                    <td>&#8358;{{Number(tot.new).toLocaleString()}}</td>
+                                    <td>{{new Date(tot.date).toLocaleString()}}</td>
+                                    <td> <a href="" class="btn btn-danger">Delete</a></td>
+                                </tr>
+                            </tbody>
 
-      </select>
-      <input type="text" v-model="expenses">
-      <button @click="addExpenses">Add Expenses</button>
-    </form>
-    <br>
-    <p>All category</p>
-    <form action="">
-        <input type="text" v-model="category">
-        <button @click="addCategory">Add Category</button>
-    </form>
-    <hr>
-    <h2>All budgets</h2>
-    <p>&#8358;{{Number(expensesSum).toLocaleString()}}</p>
-    <p v-for="(tot, index) in totals" :key="index">&#8358;{{Number(tot.new).toLocaleString()}}-({{tot.category}})-{{new Date(tot.date).toLocaleString()}}</p>
-
-
-    <br><br>
-    <h2>Balance: &#8358;{{Number(this.sum - this.expensesSum).toLocaleString()}}</h2>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end card-box -->
+</div>
   </div>
 </template>
 
@@ -41,6 +84,17 @@
 import topHeader from '@/components/topHeader.vue'
 import sidebar from '@/components/sidebar.vue'
 import firebase from 'firebase/app'
+import JQuery from 'jquery'
+// import '@/assets/libs/datatables/jquery.dataTables.min.js'
+//         import '@/assets/libs/datatables/dataTables.bootstrap4.min.js'
+//         import '@/assets/libs/datatables/dataTables.responsive.min.js'
+//         import '@/assets/libs/datatables/responsive.bootstrap4.min.js'
+//         import '@/assets/libs/datatables/dataTables.buttons.min.js'
+//         import '@/assets/libs/datatables/buttons.bootstrap4.min.js'
+//         import '@/assets/libs/datatables/buttons.html5.min.js'
+//         import '@/assets/libs/datatables/buttons.flash.min.js'
+//         import '@/assets/libs/datatables/dataTables.keyTable.min.js'
+//         import '@/assets/libs/datatables/dataTables.select.min.js'
 // import firestore from 'firebase/firestore'
 import 'firebase/auth'
 const db = firebase.firestore();
@@ -168,6 +222,7 @@ export default {
        db.collection('users').doc(user.uid).get().then(response =>{
          console.log(response)
        })
+    JQuery('#datatable').dataTable();
   }
 }
 </script>
