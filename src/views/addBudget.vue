@@ -3,7 +3,7 @@
         <top-header></top-header>
         <sidebar></sidebar>
         <div class="content-section budget">
-            <h3 class="total">Total Budget: &#8358;{{new Intl.NumberFormat().format(sum)}}</h3>
+            <h3 class="total">Total Budget: &#8358;{{Number(sum).toLocaleString()}}</h3>
             <div class="budget-tab">
                 <div class="add-budget">
                     <h3>Add Budget</h3>
@@ -22,7 +22,7 @@
                         </tr>
                         <tr v-for="(to, index) in total" :key="index">
                             <td>{{index+1}}</td>
-                            <td>&#8358;{{new Intl.NumberFormat().format(to.money)}}</td>
+                            <td>&#8358;{{Number(to.money).toLocaleString()}}</td>
                             <td>{{new Date(to.date).toLocaleString()}}</td>
                             <td><button>Delete</button></td>
                         </tr>

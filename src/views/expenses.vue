@@ -84,18 +84,6 @@
 import topHeader from '@/components/topHeader.vue'
 import sidebar from '@/components/sidebar.vue'
 import firebase from 'firebase/app'
-import JQuery from 'jquery'
-// import '@/assets/libs/datatables/jquery.dataTables.min.js'
-//         import '@/assets/libs/datatables/dataTables.bootstrap4.min.js'
-//         import '@/assets/libs/datatables/dataTables.responsive.min.js'
-//         import '@/assets/libs/datatables/responsive.bootstrap4.min.js'
-//         import '@/assets/libs/datatables/dataTables.buttons.min.js'
-//         import '@/assets/libs/datatables/buttons.bootstrap4.min.js'
-//         import '@/assets/libs/datatables/buttons.html5.min.js'
-//         import '@/assets/libs/datatables/buttons.flash.min.js'
-//         import '@/assets/libs/datatables/dataTables.keyTable.min.js'
-//         import '@/assets/libs/datatables/dataTables.select.min.js'
-// import firestore from 'firebase/firestore'
 import 'firebase/auth'
 const db = firebase.firestore();
 export default {
@@ -125,24 +113,6 @@ export default {
     }
   },
   methods: {
-    logout(){
-    firebase.auth().signOut().then(() =>{
-      this.$router.push('/')
-    })
-    //   if(this.username){
-    //       db.collection('users').doc(this.username).get().then(doc =>{
-    //           if(doc.exists){
-    //               this.feedback = "this username already exist"
-    //           }
-    //           else{
-    //               this.feedback = "it doesnt exit"
-    //           }
-    //       })
-    //   }
-    //   else{
-    //       this.feedback = "You must enter a username"
-    //   }
-    },
     fetchdata(){
       var user = firebase.auth().currentUser;
       this.use = user;
@@ -160,17 +130,17 @@ export default {
         })
             
       },
-        addBudget(e){
-            e.preventDefault()
-            var user = firebase.auth().currentUser;
-            db.collection('users').doc(user.uid).collection('budget').add({
-                new: parseInt(this.money),
-                date: new Date().getTime()
-            }).then(()=>{
-                alert("added successfully")
-                location.reload()
-            })
-        },
+        // addBudget(e){
+        //     e.preventDefault()
+        //     var user = firebase.auth().currentUser;
+        //     db.collection('users').doc(user.uid).collection('budget').add({
+        //         new: parseInt(this.money),
+        //         date: new Date().getTime()
+        //     }).then(()=>{
+        //         alert("added successfully")
+        //         location.reload()
+        //     })
+        // },
         addExpenses(e){
             e.preventDefault()
             var user = firebase.auth().currentUser;
@@ -183,18 +153,18 @@ export default {
                 location.reload()
             })
         },
-        addCategory(e){
-            e.preventDefault()
-            var user = firebase.auth().currentUser;
-            db.collection('users').doc(user.uid).collection('category').add({
-                name: this.category,
-                id: this.category.length - 1
-                // date: new Date().getTime()
-            }).then(()=>{
-                alert("added successfully")
-                // console.log()
-            })
-        },
+        // addCategory(e){
+        //     e.preventDefault()
+        //     var user = firebase.auth().currentUser;
+        //     db.collection('users').doc(user.uid).collection('category').add({
+        //         name: this.category,
+        //         id: this.category.length - 1
+        //         // date: new Date().getTime()
+        //     }).then(()=>{
+        //         alert("added successfully")
+        //         // console.log()
+        //     })
+        // },
       // fetch expenses
         fetchExpenses(){
       var user = firebase.auth().currentUser;
@@ -216,13 +186,8 @@ export default {
       },
   },
   mounted(){
-      this.fetchdata()
-      this.fetchExpenses()
-        var user = firebase.auth().currentUser;
-       db.collection('users').doc(user.uid).get().then(response =>{
-         console.log(response)
-       })
-    JQuery('#datatable').dataTable();
-  }
+        this.fetchdata()
+        this.fetchExpenses()
+    }
 }
 </script>
