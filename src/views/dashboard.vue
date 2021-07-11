@@ -51,18 +51,15 @@ export default {
         allExpenses: [],
         totalExpenses: [],
         cat: '',
-        interval: null
+        userId: firebase.auth().currentUser.uid
     }
   },
   methods: {
-    fetchData(){
-        var user = firebase.auth().currentUser;
-        this.userDetails = user;
-        db.collection('users').doc(user.uid).collection('budget').get()
+    fetchBudget(){
+        db.collection('budget').where('userId', '==', this.userId).get()
         .then(acc=>{
             acc.forEach(doc =>{
                 let result = doc.data()
-                console.log(result)
                 this.allBudget.push(result.money)
                 this.sum = this.allBudget.reduce(function(a, b){
                     return a + b;
@@ -107,9 +104,7 @@ export default {
     // },
     // fetch expenses
     fetchExpenses(){
-        var user = firebase.auth().currentUser;
-        this.use = user;
-        db.collection('users').doc(user.uid).collection('expenses').get()
+        db.collection('expenses').where('userId', '==', this.userId).get()
         .then(acc1=>{
             acc1.forEach(doc =>{
                 let result = doc.data()
@@ -122,7 +117,7 @@ export default {
     }
   },
     mounted(){
-        this.fetchData()
+        this.fetchBudget()
         this.fetchExpenses()
     }
 }
@@ -141,6 +136,7 @@ export default {
         margin-left: 280px;
         transition: margin-left 300ms;
         margin-top: 100px;
+        background: var(--gray);
         @media (max-width: 1124px){
             margin-left: 0;
         }

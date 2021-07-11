@@ -5,26 +5,26 @@
         <div class="content-section budget">
             <h3 class="total">Total Budget: &#8358;{{Number(sum).toLocaleString()}}</h3>
             <div class="budget-tab">
-                <div class="add-budget">
+                <div class="add-budget card">
                     <h3>Add Budget</h3>
                     <form action="">
                         <input type="text" v-model="money">
                         <button @click="addBudget">Add Budget</button>
                     </form>
                 </div>
-                <div class="budget-table">
+                <div class="budget-table card">
                     <table>
                         <tr>
                             <th>S/N</th>
                             <th>Amount</th>
-                            <th>Date/Time</th>
+                            <!-- <th>Date/Time</th> -->
                             <th>Action</th>
                         </tr>
-                        <tr v-for="(to, index) in total" :key="index">
+                        <tr v-for="(totalBudget, index) in totalBudgets" :key="totalBudget.id">
                             <td>{{index+1}}</td>
-                            <td>&#8358;{{Number(to.money).toLocaleString()}}</td>
-                            <td>{{new Date(to.date).toLocaleString()}}</td>
-                            <td><button>Delete</button></td>
+                            <td>&#8358;{{Number(totalBudget.money).toLocaleString()}}</td>
+                            <!-- <td>{{new Date(totalBudget.date).toLocaleString()}}</td> -->
+                            <td><button @click="deleteBudget(totalBudget.id)">Delete</button></td>
                         </tr>
                     </table>
                 </div>
@@ -42,47 +42,48 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 const db = firebase.firestore();
 export default {
-  name: 'signup',
-  components: {
-      topHeader,
-      sidebar,
-      mainFooter
-  },
-  data(){
-    return{
-      feedback: '',
-      total: [],
-      money: '',
-      sum: '',
-      budget: [],
-    }
-  },
-  methods: {
-    fetchdata(){
-      var user = firebase.auth().currentUser;
-      this.user = user;
-        db.collection('users').doc(user.uid).collection('budget')
-        .onSnapshot(querySnap=>{
-          this.total = [];
-          this.budget = [];
-            querySnap.forEach(doc =>{
-                let result = doc.data()
-                this.budget.unshift(result.money)
-                this.total.push(result)
-                console.log(this.budget)
-                this.sum = this.budget.reduce(function(a, b){
-                return a + b;
-              }, 0);
+    name: 'signup',
+    components: {
+        topHeader,
+        sidebar,
+        mainFooter
+    },
+    data(){
+        return{
+        feedback: '',
+        total: [],
+        money: '',
+        sum: '',
+        budget: [],
+        totalBudgets: [],
+        userId: firebase.auth().currentUser.uid
+        }
+    },
+    methods: {
+        fetchBudget(){
+            db.collection('budget').where('userId', '==', this.userId).onSnapshot(querySnap=>{
+            this.totalBudgets = [];
+            this.budget = [];
+                querySnap.forEach(doc =>{
+                    let result = doc.data()
+                    this.budget.unshift(result.money)
+                    result.id = doc.id
+                    this.totalBudgets.push(result)
+                    this.sum = this.budget.reduce(function(a, b){
+                    return a + b;
+                }, 0);
+                })
             })
-        })
-      },
+        },
         addBudget(e){
             e.preventDefault()
-            var user = firebase.auth().currentUser;
+            let convert = Number(this.money).toFixed(2);
             if(this.money){
-                db.collection('users').doc(user.uid).collection('budget').add({
-                    money: Number(this.money),
-                    date: Date.now()
+                db.collection('budget').add({
+                    budget_id: this.budget.length + 1,
+                    money: Number(convert),
+                    date: Date.now(),
+                    userId: this.userId
                 }).then(()=>{
                     alert("added successfully")
                 })
@@ -92,24 +93,33 @@ export default {
                 alert("check input field")
             }
         },
+        deleteBudget(id){
+            db.collection('budget').doc(id).delete().then(()=>{
+            this.totalBudgets = this.totalBudgets.filter(budget =>{
+                return budget.id != id;
+            });
+            })
+        }
     },
     mounted(){
-        this.fetchdata()
+        this.fetchBudget()
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
     .budget{
         padding: 20px;
         display: flex;
         flex-direction: column;
-        background: var(--primary);
         h3.total{
             align-self: flex-end;
         }
+        .card{
+            background: var(--primary);
+            padding: 20px;
+        }
         .budget-tab{
             display: flex;
-            margin-top: 30px;
         }
         .add-budget{
             width: 40%;

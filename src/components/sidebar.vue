@@ -44,8 +44,7 @@ export default {
         box-sizing: border-box;
     }
     body{
-        background: var(--gray);
-        font-family: 'Poppins', sans-serif;
+        background: var(--primary);
     }
     #sidebar-toggle{
     display: none;

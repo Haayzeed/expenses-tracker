@@ -2,82 +2,54 @@
   <div class="about">
     <top-header></top-header>
       <sidebar></sidebar>
-      <div class="content-section">
-    <div class="content">
-        <!-- Start Content-->
-        <div class="container-fluid">
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box">
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Dashboard</li>
-                            </ol>
+        <div class="content-section budget">
+            <h3 class="total">Total Expenses: &#8358;{{Number(expensesSum).toLocaleString()}}</h3>
+            <div class="budget-tab">
+                <div class="add-budget">
+                    <h4 class="header-title">Add Expenses</h4>
+                    <form class="">
+                        <div class="form-group">
+                            <select name="" id="" class="form-control" v-model="cat">
+                                <option value="">--Select category--</option>
+                                <option value="Food">Food</option>
+                                <option value="Cloth">Cloth</option>
+                                <option value="Transport">Transport</option>
+                            </select>
                         </div>
-                        <h4 class="page-title">School</h4>
-                    </div>
-                </div>
-            </div>     
-            <!-- end page title --> 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card-box">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h4 class="header-title">Add Expenses</h4>
-                                <form class="">
-                                    <div class="form-group">
-                                        <select name="" id="" class="form-control" v-model="cat">
-                                            <option value="">--Select category--</option>
-                                            <option value="Food">Food</option>
-                                            <option value="Cloth">Cloth</option>
-                                            <option value="Transport">Transport</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="number" class="form-control" placeholder="Expenses" v-model="expenses">
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-block btn-dark" @click="addExpenses">Add Expenses</button>
-                                    </div>
-                                </form> 
-                                
-                            </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="Expenses" v-model="expenses">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <button class="btn btn-block btn-dark" @click="addExpenses">Add Expenses</button>
+                        </div>
+                    </form>                    
                 </div>
-                <div class="col-md-8">
-                    <div class="card-box">
-                        <h4 class="header-title">Modify School</h4>
-                        <table id="datatable" class="table table-bordered nowrap">
-                            <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Category</th>
-                                    <td>Amount</td>
-                                    <td>Date/Time</td>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(tot, index) in totals" :key="index">
-                                    <td>{{index+1}}</td>
-                                    <td>{{tot.category}}</td>
-                                    <td>&#8358;{{Number(tot.new).toLocaleString()}}</td>
-                                    <td>{{new Date(tot.date).toLocaleString()}}</td>
-                                    <td> <a href="" class="btn btn-danger">Delete</a></td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
+                <div class="budget-table">
+                    <h4 class="header-title">Modify Expenses</h4>
+                    <table id="datatable" class="table table-bordered nowrap">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Category</th>
+                                <td>Amount</td>
+                                <!-- <td>Date/Time</td> -->
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(tot, index) in totals" :key="index">
+                                <td>{{index+1}}</td>
+                                <td>{{tot.category}}</td>
+                                <td>&#8358;{{Number(tot.money).toLocaleString()}}</td>
+                                <!-- <td>{{new Date(tot.date).toLocaleString()}}</td> -->
+                                <td> <button class="btn btn-danger" @click="deleteExpenses(tot.id)">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div> <!-- end card-box -->
-</div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -94,99 +66,61 @@ export default {
   },
   data(){
     return{
-      email: '',
-      username: '',
-      password: '',
-      feedback: '',
-      total: [],
-      money: '',
-      sum: '',
-      me: [],
-      use:'',
-      category: '',
-      expenses: '',
-      expensesSum: [],
-      mee: [],
-      totals: [],
-      cat: '',
-      interval: null
+        total: [],
+        money: null,
+        sum: '',
+        category: '',
+        expenses: '',
+        totals: [],
+        cat: '',
+        expensesSum: '',
+        userId: firebase.auth().currentUser.uid
     }
   },
   methods: {
-    fetchdata(){
-      var user = firebase.auth().currentUser;
-      this.use = user;
-        db.collection('users').doc(user.uid).collection('budget').get()
-        .then(acc=>{
-            acc.forEach(doc =>{
-                let tt = doc.data()
-                this.me.push(tt.new)
-                this.total.push(tt)
-                console.log(this.me)
-                this.sum = this.me.reduce(function(a, b){
-              return a + b;
-              }, 0);
-            })
-        })
-            
-      },
-        // addBudget(e){
-        //     e.preventDefault()
-        //     var user = firebase.auth().currentUser;
-        //     db.collection('users').doc(user.uid).collection('budget').add({
-        //         new: parseInt(this.money),
-        //         date: new Date().getTime()
-        //     }).then(()=>{
-        //         alert("added successfully")
-        //         location.reload()
-        //     })
-        // },
-        addExpenses(e){
-            e.preventDefault()
-            var user = firebase.auth().currentUser;
-            db.collection('users').doc(user.uid).collection('expenses').add({
-                new: parseInt(this.expenses),
+    addExpenses(e){
+        e.preventDefault()
+        let convert = Number(this.expenses).toFixed(2);
+        if(this.expenses){
+            db.collection('expenses').add({
+                money: Number(convert),
                 date: new Date().getTime(),
-                category: this.cat
+                category: this.cat,
+                userId: this.userId
             }).then(()=>{
                 alert("added successfully")
-                location.reload()
             })
-        },
-        // addCategory(e){
-        //     e.preventDefault()
-        //     var user = firebase.auth().currentUser;
-        //     db.collection('users').doc(user.uid).collection('category').add({
-        //         name: this.category,
-        //         id: this.category.length - 1
-        //         // date: new Date().getTime()
-        //     }).then(()=>{
-        //         alert("added successfully")
-        //         // console.log()
-        //     })
-        // },
+            this.expenses = ''
+        }
+        else{
+            alert("check input field")
+        }
+    },
       // fetch expenses
-        fetchExpenses(){
-      var user = firebase.auth().currentUser;
-      this.use = user;
-        db.collection('users').doc(user.uid).collection('expenses').get()
-        .then(acc1=>{
+    fetchExpenses(){
+        db.collection('expenses').where('userId', '==', this.userId).onSnapshot(acc1=>{
+            this.totals = [];
+            this.totalExpenses = []
             acc1.forEach(doc =>{
-                let ttw = doc.data()
-                this.mee.push(ttw.new)
-                this.totals.push(ttw)
-                console.log(this.totals)
-                this.expensesSum = this.mee.reduce(function(a, b){
+                let result = doc.data()
+                this.totals.push(result)
+                result.id = doc.id
+                this.totalExpenses.unshift(result.money)
+                this.expensesSum = this.totalExpenses.reduce(function(a, b){
                 return a + b;
               }, 0);
-              console.log(this.mee)
             })
         })
-            
-      },
+    },
+    deleteExpenses(id){
+        db.collection('expenses').doc(id).delete().then(()=>{
+            this.totals = this.totals.filter(total =>{
+                return total.id != id;
+            });
+        })
+    }
   },
   mounted(){
-        this.fetchdata()
         this.fetchExpenses()
     }
 }
