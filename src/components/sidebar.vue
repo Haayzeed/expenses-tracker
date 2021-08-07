@@ -1,10 +1,10 @@
 <template>
     <div>
-        <input type="checkbox" id="sidebar-toggle">
+        <input type="checkbox" id="sidebar-toggle" class="checker" @click="sidebarSwitcher()">
         <div class="sidebar">
             <div class="sidebar-brand">
                 <div class="brand-flex">
-                    <h3><i class="fas fa-dice"></i> Bluecube</h3>
+                    <h3><i class="fas fa-dice"></i> Budget-it</h3>
                 </div>
             </div>
             <div class="sidebar-main">
@@ -27,8 +27,25 @@ export default {
         return{
             
         }
+    },
+    methods: {
+        sidebarSwitcher(){
+           var checker = document.querySelector('.checker')
+           if(checker.checked){
+               console.log('checked')
+               document.querySelector('header').classList.add('header-out')
+               document.querySelector('.main-content').classList.add('main-content-out')
+               document.querySelector('.content-section').classList.add('content-section-out')
+           }
+           else{
+                document.querySelector('header').classList.remove('header-out')
+                document.querySelector('.main-content').classList.remove('main-content-out')
+                document.querySelector('.content-section').classList.remove('content-section-out')
+           }
+        }
     }
 }
+
 </script>
 
 <style lang="scss">
@@ -42,9 +59,6 @@ export default {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
-    body{
-        background: var(--primary);
     }
     #sidebar-toggle{
     display: none;
@@ -60,19 +74,19 @@ export default {
 }
 .body-label{
     position: fixed;
-    width: calc(100% - 280px);
+    width: calc(100% - 240px);
     height: 100%;
     z-index: 30;
     right: -100%;   
     top: 0;
 }
 .sidebar{
-    width: 280px;
+    width: 240px;
     position: fixed;
     left: 0;
     top: 0;
     height: 100%;
-    padding: 1rem 1.5rem;
+    padding: 1rem 0;
     background: var(--dark-blue);
     color: var(--primary);
     z-index: 20;
@@ -88,7 +102,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-top: 20px;
+        padding: 10px;
         h3{
             color: var(--primary);
         }
@@ -98,7 +112,7 @@ export default {
             list-style-type: none;
             margin-bottom: 1.5rem;
             li{
-                margin-bottom: .3rem;
+                height: 50px;
                 cursor: pointer;
                 a{
                     color: var(--primary);
@@ -106,15 +120,16 @@ export default {
                     display: flex;
                     align-items: center;
                     text-decoration: none;
-                    padding: 10px;
+                    height: 100%;
+                    padding: 0 10px;
                     span{
-                        font-size: 20px;
+                        font-size: 18px;
                         margin-right: .8rem;
+                        font-weight: 600;
                     }
                     &.router-link-exact-active, &:hover{
                         background: var(--primary);
                         color: var(--dark-blue);
-                        border-radius: 5px;
                     }
                 }
             }

@@ -6,9 +6,9 @@
             <h3 class="total">Total Budget: &#8358;{{Number(sum).toLocaleString()}}</h3>
             <div class="budget-tab">
                 <div class="add-budget card">
-                    <h3>Add Budget</h3>
+                    <h4 class="card-title">Add Budget</h4>
                     <form action="">
-                        <input type="text" v-model="money">
+                        <input type="text" v-model="money" placeholder="Budget">
                         <button @click="addBudget">Add Budget</button>
                     </form>
                 </div>
@@ -120,9 +120,10 @@ export default {
         }
         .budget-tab{
             display: flex;
+            justify-content: space-between;
         }
         .add-budget{
-            width: 40%;
+            width: calc(40% - 10px);
             padding: 20px;
             form{
                 display: flex;
@@ -132,25 +133,30 @@ export default {
                     height: 40px;
                     margin: 10px 0;
                     padding: 14px;
+                    border-radius: 3px;
+                    border: 1px solid var(--dark-blue);
                 }
                 button{
                     background: var(--dark-blue);
                     border: none;
                     color: var(--primary);
                     height: 40px;
+                    border-radius: 3px;
                 }
             }
         }
         .budget-table{
-            width: 60%;
+            width: calc(60% - 10px);
             table, th, td{
                 border: 1px solid #ccc;
             }
             table{
                 width: 100%;
                 border-collapse: collapse;
+                margin-top: 10px;
                 th, td{
                     height: 50px;
+                    text-align: center;
                 }
                 button{
                     background: red;
@@ -159,7 +165,6 @@ export default {
                     border: none;
                     border-radius: 5px;
                 }
-                
             }
         }
     }

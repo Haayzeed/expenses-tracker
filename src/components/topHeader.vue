@@ -8,8 +8,13 @@
                     </label>
                 </div>
                 <div class="header-icons">
-                    <span><img :src="userDetails.photoURL" alt="" class="avatar"></span>
-                    <span class="">{{userDetails.displayName}}</span><button @click="logout()">Logout</button>
+                    <span>
+                        <img :src="userDetails.photoURL" alt="" class="avatar" v-if="userDetails.photoURL">
+                        <img src="@/assets/avatar.png" alt="" class="avatar" v-else>
+                    </span>
+                    <span v-if="userDetails.displayName">{{userDetails.displayName}}</span>
+                    <span v-else>{{userDetails.email}}</span>
+                    <button @click="logout()">Logout</button>
                 </div>
             </header>
         </div>
@@ -40,10 +45,14 @@ export default {
     }
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .main-content{
-    margin-left: 280px;
-    transition: margin-left 300ms;
+    margin-left: 240px;
+    transition: 300ms;
+    &.main-content-out{
+        transition: 300ms;
+        margin-left: 0;
+    }
     @media (max-width: 1124px){
         margin-left: 0;
     }
@@ -56,9 +65,15 @@ export default {
         background: var(--dark-blue);
         position: fixed;
         top: 0;
-        left: 280px;
-        width: calc(100% - 280px);
+        left: 240px;
+        width: calc(100% - 240px);
         z-index: 20;
+        transition: 300ms;
+        &.header-out{
+            left: 0;
+            width: 100%;
+            transition: 300ms;
+        }
         @media (max-width: 1124px){
             left: 0%;
             width: 100%;
@@ -76,8 +91,13 @@ export default {
                 justify-content: center;
                 align-items: center;
                 border-radius: 50%;
+                cursor: pointer;
+                transition: 300ms;
                 &:hover{
                     background: #efefef;
+                    .fas{
+                        color: var(--dark-blue);
+                    }
                 }
             }
         }

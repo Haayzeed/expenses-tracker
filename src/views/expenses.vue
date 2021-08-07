@@ -5,7 +5,7 @@
         <div class="content-section budget">
             <h3 class="total">Total Expenses: &#8358;{{Number(expensesSum).toLocaleString()}}</h3>
             <div class="budget-tab">
-                <div class="add-budget">
+                <div class="add-budget card">
                     <h4 class="header-title">Add Expenses</h4>
                     <form class="">
                         <div class="form-group">
@@ -24,9 +24,9 @@
                         </div>
                     </form>                    
                 </div>
-                <div class="budget-table">
+                <div class="budget-table card">
                     <h4 class="header-title">Modify Expenses</h4>
-                    <table id="datatable" class="table table-bordered nowrap">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>S/N</th>
@@ -125,7 +125,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 form{
     display: flex;
     flex-direction: column;
@@ -134,6 +134,8 @@ form{
         height: 40px;
         margin: 10px 0;
         padding: 10px;
+        border-radius: 3px;
+        border: 1px solid var(--dark-blue);
     }
     button{
         background: var(--dark-blue);
@@ -141,6 +143,7 @@ form{
         color: var(--primary);
         height: 40px;
         width: 100%;
+        border-radius: 3px;
     }
 }
 </style>

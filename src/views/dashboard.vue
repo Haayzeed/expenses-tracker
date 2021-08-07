@@ -43,7 +43,6 @@ export default {
   },
   data(){
     return{
-        total: [],
         money: '',
         sum: '',
         allBudget: [],
@@ -133,24 +132,28 @@ export default {
         }
     }
     .content-section{
-        margin-left: 280px;
-        transition: margin-left 300ms;
-        margin-top: 100px;
+        margin-left: 240px;
+        transition: 300ms;
+        margin-top: 80px;
+        height: calc(100vh - 100px);
         background: var(--gray);
+        &.content-section-out{
+            transition: 300ms;
+            margin-left: 0;
+        }
         @media (max-width: 1124px){
             margin-left: 0;
         }
         main{
-            padding: 1rem 2.5rem;
+            padding: 1.5rem 2.5rem;
             background: var(--light-gray);
-            min-height: calc(100vh - 70px);
             margin-top: 70px;
             .content{
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
                 grid-column-gap: 30px;
                 @media (max-width: 1124px){
-                    grid-template-columns: repeat(4, 1fr);
+                    grid-template-columns: repeat(3, 1fr);
                 }
                 @media (max-width: 600px){
                     grid-template-columns: repeat(1, 1fr);
