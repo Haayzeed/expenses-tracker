@@ -121,10 +121,17 @@ export default {
         .budget-tab{
             display: flex;
             justify-content: space-between;
+            @media(max-width: 767px){
+                flex-direction: column;
+            }
         }
         .add-budget{
             width: calc(40% - 10px);
             padding: 20px;
+            @media(max-width: 767px){
+                width: 100%;
+                margin-bottom: 10px;
+            }
             form{
                 display: flex;
                 flex-direction: column;
@@ -147,6 +154,9 @@ export default {
         }
         .budget-table{
             width: calc(60% - 10px);
+            @media(max-width: 767px){
+                width: 100%;
+            }
             table, th, td{
                 border: 1px solid #ccc;
             }
