@@ -125,3 +125,22 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+form{
+    display: flex;
+    flex-direction: column;
+    .form-control {
+        width: 100%;
+        height: 40px;
+        margin: 10px 0;
+        padding: 10px;
+    }
+    button{
+        background: var(--dark-blue);
+        border: none;
+        color: var(--primary);
+        height: 40px;
+        width: 100%;
+    }
+}
+</style>
