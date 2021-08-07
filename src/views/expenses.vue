@@ -132,7 +132,7 @@ form{
     .form-control {
         width: 100%;
         height: 40px;
-        margin: 10px 0;
+        margin-bottom: 10px;
         padding: 10px;
         border-radius: 3px;
         border: 1px solid var(--dark-blue);

@@ -3,6 +3,7 @@
         <div class="login-wrapper">
             <div class="login-section">
                 <h2>Budget Tracker</h2>
+                <h5>Login</h5>
                 <div class="card-body">
                     <form @submit.prevent="login">
                         <div class="form-group">
@@ -12,11 +13,11 @@
                         <div class="form-group">
                             <input class="form-control" type="password" placeholder="Enter your password" v-model="password">
                         </div>
-                        <div class="form-group mb-0 text-center">
+                        <div class="form-group text-center">
                             <button class="btn btn-dark btn-block" type="submit"> Log In </button>
                         </div>
                     </form>
-                    <p class="google-link"><a href="" @click.prevent="googleSignUp()">Login with Google</a></p>
+                    <button class="btn google-link" @click.prevent="googleSignUp()">Login with Google</button>
                     <p class="register">Don't have an account? <router-link :to="{name: 'signup'}">Register</router-link></p>
                 </div>
             </div>
@@ -26,7 +27,6 @@
 </template>
 
 <script>
-// import firebase from '@/firebase'
 import firebase from "firebase/app"
 // import 'firebase/auth'
 // const db = firebase.firestore();
@@ -72,6 +72,10 @@ body{
         align-items: center;
         flex-direction: column;
         justify-content: center;
+        h5{
+            font-size: 20px;
+            margin-top: 10px;   
+        }
         @media(max-width: 991px){
             width: 40%;
         }
@@ -81,9 +85,9 @@ body{
         }
         .card-body{
             width: 100%;
-            padding: 50px;
+            padding: 30px 50px;
             @media(max-width: 991px){
-                padding: 30px;
+                padding: 20px 30px;
             }
         }
         .form-group{
@@ -91,7 +95,6 @@ body{
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
-            margin-bottom: 15px;
             input{
                 width: 100%;
                 height: 40px;
@@ -105,20 +108,22 @@ body{
             }
         }
         .google-link{
-            margin-bottom: 10px;
-            a{
-                color: var(--dark-blue);
-                text-decoration: none;
-                font-size: 14px;
-                
-                &:hover{
-                    text-decoration: underline;
-                }
-            }
+            margin: 30px 0 10px 0;
+            height: 40px;
+            width: 100%;
+            border-radius: 3px;
+            color: var(--dark-blue);
+            border: 1px solid var(--dark-blue);
+            background: unset;
         }
         .register{
             font-size: 14px;
             color: var(--dark-blue);
+            text-align: center;
+            a{
+                color: var(--dark-blue);
+                font-weight: 600;
+            }
 
         }
     }
